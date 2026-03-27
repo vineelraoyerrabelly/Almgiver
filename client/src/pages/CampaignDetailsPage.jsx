@@ -1,10 +1,16 @@
+import {
+  CalendarDays,
+  CircleDollarSign,
+  Landmark,
+  Users
+} from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import Loader from '../components/Loader';
-import useFetch from '../hooks/useFetch';
 import { useAuth } from '../context/AuthContext';
+import useFetch from '../hooks/useFetch';
 
 const loadRazorpayScript = () =>
   new Promise((resolve) => {
@@ -70,7 +76,7 @@ const CampaignDetailsPage = () => {
           email: user.email
         },
         theme: {
-          color: '#607631'
+          color: '#1d52db'
         }
       };
 
@@ -93,19 +99,35 @@ const CampaignDetailsPage = () => {
   );
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
       <section className="space-y-6">
-        <img
-          src={
-            campaign.image ||
-            'https://images.unsplash.com/photo-1487611459768-bd414656ea10?auto=format&fit=crop&w=1600&q=80'
-          }
-          alt={campaign.title}
-          className="h-[360px] w-full rounded-[32px] object-cover shadow-soft"
-        />
-        <div className="rounded-[32px] bg-white p-8 shadow-soft">
+        <div className="overflow-hidden rounded-[36px] border border-white/70 bg-white/70 shadow-float">
+          <img
+            src={
+              campaign.image ||
+              'https://images.unsplash.com/photo-1487611459768-bd414656ea10?auto=format&fit=crop&w=1600&q=80'
+            }
+            alt={campaign.title}
+            className="h-[360px] w-full object-cover"
+          />
+          <div className="grid gap-4 border-t border-slate-100 bg-white/92 p-6 sm:grid-cols-3">
+            {[
+              ['Raised', `INR ${campaign.currentAmount.toLocaleString()}`, CircleDollarSign],
+              ['Goal', `INR ${campaign.goalAmount.toLocaleString()}`, Landmark],
+              ['Supporters', `${campaign.recentDonations?.length || 0} recent donors`, Users]
+            ].map(([label, value, Icon]) => (
+              <div key={label} className="rounded-[24px] bg-slate-50 px-4 py-4">
+                <Icon size={18} className="text-[#1d52db]" />
+                <p className="mt-3 text-xs uppercase tracking-[0.22em] text-slate-500">{label}</p>
+                <p className="mt-1 text-lg font-semibold text-ink">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="panel rounded-[32px] p-8">
           <h1 className="text-4xl font-black text-ink">{campaign.title}</h1>
-          <p className="mt-3 text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+          <p className="section-kicker mt-3 text-sm font-semibold text-[#1d52db]">
             {campaign.college?.name}
           </p>
           <p className="mt-4 text-base leading-8 text-slate-600">{campaign.description}</p>
@@ -113,12 +135,15 @@ const CampaignDetailsPage = () => {
       </section>
 
       <aside className="space-y-6">
-        <div className="rounded-[32px] bg-white p-8 shadow-soft">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+        <div className="panel rounded-[32px] p-8">
+          <p className="section-kicker text-sm font-semibold text-[#1d52db]">
             Campaign progress
           </p>
           <div className="mt-5 h-3 rounded-full bg-slate-100">
-            <div className="h-3 rounded-full bg-brand-500" style={{ width: `${percentage}%` }} />
+            <div
+              className="h-3 rounded-full bg-gradient-to-r from-[#5f95ff] to-[#173fad]"
+              style={{ width: `${percentage}%` }}
+            />
           </div>
           <div className="mt-4 flex items-end justify-between">
             <div>
@@ -129,17 +154,36 @@ const CampaignDetailsPage = () => {
                 raised of INR {campaign.goalAmount.toLocaleString()}
               </p>
             </div>
-            <p className="rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700">
+            <p className="rounded-full bg-[#edf4ff] px-4 py-2 text-sm font-semibold text-[#173fad]">
               {percentage}% complete
             </p>
           </div>
-          <div className="mt-6 rounded-2xl bg-sand p-4 text-sm text-slate-600">
+          <div className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-sand px-4 py-3 text-sm text-slate-600">
+            <CalendarDays size={16} />
             Deadline: {new Date(campaign.deadline).toLocaleDateString()}
           </div>
         </div>
 
-        <div className="rounded-[32px] bg-white p-8 shadow-soft">
+        <div className="panel rounded-[32px] p-8">
           <h2 className="text-2xl font-bold text-ink">Make a donation</h2>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            {[500, 1000, 2500, 5000].map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setAmount(preset)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  amount === preset
+                    ? 'bg-[#1d52db] text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-[#edf4ff] hover:text-[#173fad]'
+                }`}
+              >
+                INR {preset.toLocaleString()}
+              </button>
+            ))}
+          </div>
+
           <label className="mt-5 block">
             <span className="mb-2 block text-sm font-semibold text-slate-700">
               Donation amount (INR)
@@ -149,27 +193,28 @@ const CampaignDetailsPage = () => {
               min="100"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
             />
           </label>
+
           <button
             type="button"
             onClick={handleDonate}
             disabled={processing}
-            className="mt-5 w-full rounded-2xl bg-ink px-5 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-5 w-full rounded-2xl bg-gradient-to-r from-[#1d52db] to-[#173fad] px-5 py-3 font-semibold text-white transition hover:from-[#356ef5] hover:to-[#173fad] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {processing ? 'Preparing payment...' : 'Donate with Razorpay'}
           </button>
         </div>
 
-        <div className="rounded-[32px] bg-white p-8 shadow-soft">
+        <div className="panel rounded-[32px] p-8">
           <h2 className="text-xl font-bold text-ink">Recent donations</h2>
           <div className="mt-4 space-y-3">
             {campaign.recentDonations?.length ? (
               campaign.recentDonations.map((donation) => (
                 <div
                   key={donation._id}
-                  className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3"
+                  className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-4"
                 >
                   <div>
                     <p className="font-semibold text-slate-800">{donation.donorName}</p>
@@ -180,7 +225,7 @@ const CampaignDetailsPage = () => {
                       {new Date(donation.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <p className="font-semibold text-brand-700">
+                  <p className="font-semibold text-[#173fad]">
                     INR {donation.amount.toLocaleString()}
                   </p>
                 </div>

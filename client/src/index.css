@@ -3,17 +3,26 @@
 @tailwind utilities;
 
 :root {
-  color: #0f1720;
-  background: #f8f5ef;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #10202a;
+  background: #eef4ff;
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(123, 152, 64, 0.2), transparent 28%),
-    linear-gradient(180deg, #fbf8f2 0%, #f3efe5 100%);
+    radial-gradient(circle at top left, rgba(53, 110, 245, 0.18), transparent 25%),
+    radial-gradient(circle at right 18%, rgba(201, 214, 255, 0.24), transparent 18%),
+    linear-gradient(180deg, #f8fbff 0%, #eaf1ff 100%);
 }
 
 #root {
@@ -25,3 +34,19 @@ body {
   background: rgba(255, 255, 255, 0.8);
 }
 
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 20px 45px rgba(15, 23, 32, 0.08);
+}
+
+.section-kicker {
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.royal-shell {
+  background:
+    radial-gradient(circle at top left, rgba(96, 149, 255, 0.28), transparent 28%),
+    linear-gradient(135deg, #0f172a 0%, #173fad 55%, #1d52db 100%);
+}

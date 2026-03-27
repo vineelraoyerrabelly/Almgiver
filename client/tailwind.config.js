@@ -5,25 +5,31 @@ export default {
     extend: {
       colors: {
         brand: {
-          50: '#f5f7ef',
-          100: '#e7edd7',
-          200: '#d0ddae',
-          300: '#b4ca7f',
-          400: '#97b458',
-          500: '#7b9840',
-          600: '#607631',
-          700: '#495826',
-          800: '#313c1b',
-          900: '#171f0f'
+          50: '#edf4ff',
+          100: '#dceaff',
+          200: '#bfd7ff',
+          300: '#93bbff',
+          400: '#5f95ff',
+          500: '#356ef5',
+          600: '#1d52db',
+          700: '#173fad',
+          800: '#19388a',
+          900: '#1b326f'
         },
         ink: '#0f1720',
-        sand: '#f6f1e7'
+        sand: '#eef3ff',
+        clay: '#c9d6ff',
+        mist: '#edf3ff'
       },
       boxShadow: {
-        soft: '0 20px 45px rgba(15, 23, 32, 0.08)'
+        soft: '0 20px 45px rgba(15, 23, 32, 0.08)',
+        float: '0 24px 70px rgba(15, 23, 32, 0.12)'
+      },
+      backgroundImage: {
+        grain:
+          'radial-gradient(circle at top left, rgba(53, 110, 245, 0.28), transparent 30%), radial-gradient(circle at bottom right, rgba(201, 214, 255, 0.32), transparent 22%)'
       }
     }
   },
   plugins: []
 };
-

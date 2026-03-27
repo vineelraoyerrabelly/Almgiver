@@ -47,9 +47,9 @@ const AuthPage = ({ mode = 'login' }) => {
   };
 
   return (
-    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-[36px] bg-white shadow-soft lg:grid-cols-2">
-      <div className="bg-ink px-8 py-10 text-white sm:px-10">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-brand-200">
+    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-[36px] border border-white/70 bg-white/85 shadow-float lg:grid-cols-2">
+      <div className="royal-shell px-8 py-10 text-white sm:px-10">
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-100">
           Almgiver
         </p>
         <h1 className="mt-4 text-4xl font-black">
@@ -59,9 +59,23 @@ const AuthPage = ({ mode = 'login' }) => {
           Join your college space, browse only your campus campaigns, and support
           fundraising with student, alumni, and admin access tailored to your role.
         </p>
+        <div className="mt-8 space-y-4">
+          {[
+            'College-specific campaign visibility',
+            'Royal-blue go-live fundraising workspace',
+            'Secure alumni, student, and admin access'
+          ].map((item) => (
+            <div
+              key={item}
+              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-blue-50"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5 px-8 py-10 sm:px-10">
+      <form onSubmit={handleSubmit} className="space-y-5 bg-white/90 px-8 py-10 backdrop-blur sm:px-10">
         {isRegister && (
           <label className="block">
             <span className="mb-2 block text-sm font-semibold text-slate-700">Full name</span>
@@ -69,7 +83,7 @@ const AuthPage = ({ mode = 'login' }) => {
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
               placeholder="Ananya Rao"
             />
           </label>
@@ -81,7 +95,7 @@ const AuthPage = ({ mode = 'login' }) => {
             type="email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
             placeholder="alumni@example.edu"
           />
         </label>
@@ -92,7 +106,7 @@ const AuthPage = ({ mode = 'login' }) => {
             type="password"
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
             placeholder="••••••••"
           />
         </label>
@@ -107,7 +121,7 @@ const AuthPage = ({ mode = 'login' }) => {
                 list="college-options"
                 value={formData.collegeName}
                 onChange={(e) => setFormData({ ...formData, collegeName: e.target.value })}
-                className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+                className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
                 placeholder="Enter your college name"
               />
               <datalist id="college-options">
@@ -121,7 +135,7 @@ const AuthPage = ({ mode = 'login' }) => {
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+                className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
               >
                 <option value="student">Student</option>
                 <option value="alumni">Alumni</option>
@@ -139,7 +153,7 @@ const AuthPage = ({ mode = 'login' }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, adminRegistrationKey: e.target.value })
                   }
-                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
                   placeholder="Enter the shared admin key"
                 />
               </label>
@@ -148,7 +162,7 @@ const AuthPage = ({ mode = 'login' }) => {
         )}
         <button
           disabled={loading}
-          className="w-full rounded-2xl bg-brand-600 px-5 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-2xl bg-gradient-to-r from-[#1d52db] to-[#173fad] px-5 py-3 font-semibold text-white transition hover:from-[#356ef5] hover:to-[#173fad] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? 'Please wait...' : isRegister ? 'Create account' : 'Sign in'}
         </button>
@@ -156,7 +170,7 @@ const AuthPage = ({ mode = 'login' }) => {
           {isRegister ? 'Already have an account?' : 'Need a new account?'}{' '}
           <Link
             to={isRegister ? '/login' : '/register'}
-            className="font-semibold text-brand-700"
+            className="font-semibold text-[#173fad]"
           >
             {isRegister ? 'Login' : 'Register'}
           </Link>
@@ -164,7 +178,7 @@ const AuthPage = ({ mode = 'login' }) => {
         {!isRegister && (
           <p className="text-sm text-slate-500">
             Forgot your password?{' '}
-            <Link to="/forgot-password" className="font-semibold text-brand-700">
+            <Link to="/forgot-password" className="font-semibold text-[#173fad]">
               Reset it here
             </Link>
           </p>

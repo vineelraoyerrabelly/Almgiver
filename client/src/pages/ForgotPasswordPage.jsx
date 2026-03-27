@@ -48,14 +48,20 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl rounded-[36px] bg-white p-8 shadow-soft sm:p-10">
-      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-brand-600">
+    <div className="mx-auto max-w-2xl overflow-hidden rounded-[36px] border border-white/70 bg-white/90 shadow-float sm:p-0">
+      <div className="royal-shell p-8 text-white sm:p-10">
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-100">
+          Password reset
+        </p>
+        <h1 className="mt-4 text-4xl font-black">Reset access without profile prompts</h1>
+        <p className="mt-4 text-base leading-8 text-blue-50/85">
+          Password changes now happen only through this reset flow. Start with your
+          email, then use the generated reset code to create a new password.
+        </p>
+      </div>
+      <div className="p-8 sm:p-10">
+      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#1d52db]">
         Password reset
-      </p>
-      <h1 className="mt-4 text-4xl font-black text-ink">Reset access without profile prompts</h1>
-      <p className="mt-4 text-base leading-8 text-slate-600">
-        Password changes now happen only through this reset flow. Start with your
-        email, then use the generated reset code to create a new password.
       </p>
 
       <form
@@ -67,7 +73,7 @@ const ForgotPasswordPage = () => {
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+          className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
           placeholder="Email address"
         />
 
@@ -77,7 +83,7 @@ const ForgotPasswordPage = () => {
               required
               value={formData.resetToken}
               onChange={(e) => setFormData({ ...formData, resetToken: e.target.value })}
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
               placeholder="Reset code"
             />
             <input
@@ -85,7 +91,7 @@ const ForgotPasswordPage = () => {
               type="password"
               value={formData.newPassword}
               onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
               placeholder="New password"
             />
             <input
@@ -95,7 +101,7 @@ const ForgotPasswordPage = () => {
               onChange={(e) =>
                 setFormData({ ...formData, confirmPassword: e.target.value })
               }
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
               placeholder="Confirm new password"
             />
           </>
@@ -103,7 +109,7 @@ const ForgotPasswordPage = () => {
 
         <button
           disabled={loading}
-          className="w-full rounded-2xl bg-ink px-5 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-2xl bg-gradient-to-r from-[#1d52db] to-[#173fad] px-5 py-3 font-semibold text-white transition hover:from-[#356ef5] hover:to-[#173fad] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading
             ? 'Please wait...'
@@ -115,10 +121,11 @@ const ForgotPasswordPage = () => {
 
       <p className="mt-5 text-sm text-slate-500">
         Back to{' '}
-        <Link to="/login" className="font-semibold text-brand-700">
+        <Link to="/login" className="font-semibold text-[#173fad]">
           login
         </Link>
       </p>
+      </div>
     </div>
   );
 };

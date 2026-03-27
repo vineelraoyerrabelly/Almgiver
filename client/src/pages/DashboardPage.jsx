@@ -30,28 +30,28 @@ const DashboardPage = () => {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-      <section className="rounded-[32px] bg-white p-8 shadow-soft">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+      <section className="panel rounded-[32px] p-8">
+        <p className="section-kicker text-sm font-semibold text-[#1d52db]">
           My profile
         </p>
         <h1 className="mt-3 text-3xl font-black text-ink">{user?.name}</h1>
-        <div className="mt-4 rounded-2xl bg-brand-50 px-4 py-4 text-sm text-brand-800">
+        <div className="mt-4 rounded-2xl border border-[#dceaff] bg-[#edf4ff] px-4 py-4 text-sm text-[#173fad]">
           {user?.role} · {user?.college?.name}
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <input
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
             placeholder="Your name"
           />
           <input
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#5f95ff]"
             placeholder="Email"
           />
-          <button className="rounded-2xl bg-ink px-5 py-3 font-semibold text-white transition hover:bg-brand-700">
+          <button className="rounded-2xl bg-gradient-to-r from-[#1d52db] to-[#173fad] px-5 py-3 font-semibold text-white transition hover:from-[#356ef5] hover:to-[#173fad]">
             Save changes
           </button>
         </form>
@@ -60,15 +60,15 @@ const DashboardPage = () => {
         </p>
       </section>
 
-      <section className="rounded-[32px] bg-white p-8 shadow-soft">
+      <section className="panel rounded-[32px] p-8">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+            <p className="section-kicker text-sm font-semibold text-[#1d52db]">
               Donation history
             </p>
             <h2 className="mt-3 text-3xl font-black text-ink">Your contributions</h2>
           </div>
-          <div className="rounded-2xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-700">
+          <div className="rounded-2xl border border-[#dceaff] bg-[#edf4ff] px-4 py-3 text-sm font-semibold text-[#173fad]">
             {donations?.length || 0} gifts
           </div>
         </div>
@@ -81,7 +81,7 @@ const DashboardPage = () => {
               donations.map((donation) => (
                 <div
                   key={donation._id}
-                  className="flex items-center justify-between rounded-2xl border border-slate-100 p-4"
+                  className="flex items-center justify-between rounded-2xl border border-[#dceaff] bg-white/90 p-4"
                 >
                   <div>
                     <p className="font-semibold text-slate-800">
@@ -95,7 +95,7 @@ const DashboardPage = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-brand-700">
+                    <p className="font-semibold text-[#173fad]">
                       INR {donation.amount.toLocaleString()}
                     </p>
                     <p className="text-xs text-slate-500">{donation.paymentId}</p>
