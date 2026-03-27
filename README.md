@@ -4,11 +4,12 @@ Almgiver is a full-stack alumni fundraising web application built with React, Vi
 
 ## Features
 
-- Alumni and admin authentication with JWT and hashed passwords
-- Campaign browsing, search, filtering, progress tracking, and campaign detail pages
+- College-scoped student, alumni, and admin authentication with JWT and hashed passwords
+- Multi-college campaign browsing where each user only sees their own college data
 - Razorpay test-mode donation checkout with donation history tracking
-- Alumni dashboard for profile updates and donation history
-- Admin dashboard for campaign CRUD, donation visibility, user management, and fundraising stats
+- User dashboard for profile updates and donation history
+- Admin dashboard for college-specific campaign CRUD, donor visibility, user management, and fundraising stats
+- Forgot-password flow with reset code generation and reset screen
 - Responsive Tailwind UI with loading states, toasts, and error handling
 
 ## Tech Stack
@@ -83,6 +84,12 @@ npm run dev --workspace client
 
 - `POST /api/auth/register`
 - `POST /api/auth/login`
+- `POST /api/auth/forgot-password`
+- `POST /api/auth/reset-password`
+
+### Colleges
+
+- `GET /api/colleges`
 
 ### Users
 

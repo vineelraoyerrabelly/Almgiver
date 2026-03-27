@@ -105,6 +105,9 @@ const CampaignDetailsPage = () => {
         />
         <div className="rounded-[32px] bg-white p-8 shadow-soft">
           <h1 className="text-4xl font-black text-ink">{campaign.title}</h1>
+          <p className="mt-3 text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+            {campaign.college?.name}
+          </p>
           <p className="mt-4 text-base leading-8 text-slate-600">{campaign.description}</p>
         </div>
       </section>
@@ -171,6 +174,9 @@ const CampaignDetailsPage = () => {
                   <div>
                     <p className="font-semibold text-slate-800">{donation.donorName}</p>
                     <p className="text-xs text-slate-500">
+                      {donation.donorRole} · {donation.donorCollegeName}
+                    </p>
+                    <p className="text-xs text-slate-500">
                       {new Date(donation.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -190,4 +196,3 @@ const CampaignDetailsPage = () => {
 };
 
 export default CampaignDetailsPage;
-

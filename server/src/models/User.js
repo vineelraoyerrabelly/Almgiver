@@ -20,10 +20,23 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6
     },
+    college: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'College',
+      required: true
+    },
     role: {
       type: String,
-      enum: ['alumni', 'admin'],
+      enum: ['student', 'alumni', 'admin'],
       default: 'alumni'
+    },
+    resetPasswordToken: {
+      type: String,
+      default: null
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null
     }
   },
   { timestamps: true }
@@ -45,4 +58,3 @@ userSchema.methods.matchPassword = function matchPassword(enteredPassword) {
 };
 
 export const User = mongoose.model('User', userSchema);
-

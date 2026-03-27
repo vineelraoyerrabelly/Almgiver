@@ -9,6 +9,15 @@ const useFetch = (url, deps = []) => {
   useEffect(() => {
     let ignore = false;
 
+    if (!url) {
+      setLoading(false);
+      setData(null);
+      setError('');
+      return () => {
+        ignore = true;
+      };
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);

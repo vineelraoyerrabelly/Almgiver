@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
 const AuthPage = ({ mode = 'login' }) => {
@@ -12,9 +13,22 @@ const AuthPage = ({ mode = 'login' }) => {
     name: '',
     email: '',
     password: '',
+    collegeName: '',
     role: 'alumni',
     adminRegistrationKey: ''
   });
+  const [colleges, setColleges] = useState([]);
+
+  useEffect(() => {
+    if (!isRegister) {
+      return;
+    }
+
+    api
+      .get('/colleges')
+      .then(({ data }) => setColleges(data))
+      .catch(() => setColleges([]));
+  }, [isRegister]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,8 +56,8 @@ const AuthPage = ({ mode = 'login' }) => {
           {isRegister ? 'Join your alumni network' : 'Welcome back'}
         </h1>
         <p className="mt-4 max-w-md text-slate-300">
-          Track campaigns, support meaningful causes, and manage fundraising
-          activity from one streamlined dashboard.
+          Join your college space, browse only your campus campaigns, and support
+          fundraising with student, alumni, and admin access tailored to your role.
         </p>
       </div>
 
@@ -85,12 +99,31 @@ const AuthPage = ({ mode = 'login' }) => {
         {isRegister && (
           <>
             <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-slate-700">
+                College name
+              </span>
+              <input
+                required
+                list="college-options"
+                value={formData.collegeName}
+                onChange={(e) => setFormData({ ...formData, collegeName: e.target.value })}
+                className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
+                placeholder="Enter your college name"
+              />
+              <datalist id="college-options">
+                {colleges.map((college) => (
+                  <option key={college._id} value={college.name} />
+                ))}
+              </datalist>
+            </label>
+            <label className="block">
               <span className="mb-2 block text-sm font-semibold text-slate-700">Account role</span>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
               >
+                <option value="student">Student</option>
                 <option value="alumni">Alumni</option>
                 <option value="admin">Admin</option>
               </select>
@@ -128,6 +161,14 @@ const AuthPage = ({ mode = 'login' }) => {
             {isRegister ? 'Login' : 'Register'}
           </Link>
         </p>
+        {!isRegister && (
+          <p className="text-sm text-slate-500">
+            Forgot your password?{' '}
+            <Link to="/forgot-password" className="font-semibold text-brand-700">
+              Reset it here
+            </Link>
+          </p>
+        )}
       </form>
     </div>
   );

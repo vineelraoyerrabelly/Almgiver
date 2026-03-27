@@ -10,8 +10,7 @@ const DashboardPage = () => {
   const { data: donations, loading } = useFetch('/donations/user', []);
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    email: user?.email || '',
-    password: ''
+    email: user?.email || ''
   });
 
   useEffect(() => {
@@ -36,6 +35,9 @@ const DashboardPage = () => {
           My profile
         </p>
         <h1 className="mt-3 text-3xl font-black text-ink">{user?.name}</h1>
+        <div className="mt-4 rounded-2xl bg-brand-50 px-4 py-4 text-sm text-brand-800">
+          {user?.role} · {user?.college?.name}
+        </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <input
             value={formData.name}
@@ -49,17 +51,13 @@ const DashboardPage = () => {
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
             placeholder="Email"
           />
-          <input
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            type="password"
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
-            placeholder="New password (optional)"
-          />
           <button className="rounded-2xl bg-ink px-5 py-3 font-semibold text-white transition hover:bg-brand-700">
             Save changes
           </button>
         </form>
+        <p className="mt-4 text-sm text-slate-500">
+          Need to change your password? Use the forgot-password flow from the login page.
+        </p>
       </section>
 
       <section className="rounded-[32px] bg-white p-8 shadow-soft">
@@ -92,6 +90,9 @@ const DashboardPage = () => {
                     <p className="text-sm text-slate-500">
                       {new Date(donation.createdAt).toLocaleDateString()}
                     </p>
+                    <p className="text-xs text-slate-500">
+                      Donor: {donation.donorName} · {donation.donorRole}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-brand-700">
@@ -112,4 +113,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-

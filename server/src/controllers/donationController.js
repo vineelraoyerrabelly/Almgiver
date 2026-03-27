@@ -43,6 +43,11 @@ export const createDonationOrder = asyncHandler(async (req, res) => {
     throw new Error('Campaign not found');
   }
 
+  if (String(campaign.college) !== String(req.user.college._id)) {
+    res.status(403);
+    throw new Error('You can only donate to campaigns from your college');
+  }
+
   if (!razorpayClient) {
     console.error('[donations] Razorpay client missing during create-order');
     res.status(500);
@@ -74,7 +79,8 @@ export const createDonationOrder = asyncHandler(async (req, res) => {
       statusCode: error.statusCode,
       error: error.error
     });
-    throw error;
+    res.status(error.statusCode || 500);
+    throw new Error(error.error?.description || 'Razorpay order creation failed');
   }
 
   res.status(201).json({
@@ -107,6 +113,11 @@ export const recordDonation = asyncHandler(async (req, res) => {
     throw new Error('Campaign not found');
   }
 
+  if (String(campaign.college) !== String(req.user.college._id)) {
+    res.status(403);
+    throw new Error('You can only donate to campaigns from your college');
+  }
+
   const expected = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
@@ -133,12 +144,15 @@ export const recordDonation = asyncHandler(async (req, res) => {
   const donation = await Donation.create({
     userId: req.user._id,
     campaignId,
+    college: req.user.college._id,
     amount,
     paymentId: razorpayPaymentId,
     orderId: razorpayOrderId,
     status: 'captured',
     donorName: req.user.name,
-    donorEmail: req.user.email
+    donorEmail: req.user.email,
+    donorRole: req.user.role,
+    donorCollegeName: req.user.college.name
   });
 
   campaign.currentAmount += Number(amount);
@@ -154,29 +168,34 @@ export const recordDonation = asyncHandler(async (req, res) => {
 
 export const getUserDonations = asyncHandler(async (req, res) => {
   const donations = await Donation.find({ userId: req.user._id })
-    .populate('campaignId', 'title image deadline')
+    .populate('campaignId', 'title image deadline college')
     .sort({ createdAt: -1 });
 
   res.json(donations);
 });
 
 export const getAllDonations = asyncHandler(async (req, res) => {
-  const donations = await Donation.find({})
-    .populate('userId', 'name email role')
+  const donations = await Donation.find({ college: req.user.college._id })
+    .populate('userId', 'name email role college')
     .populate('campaignId', 'title')
+    .populate('college', 'name slug')
     .sort({ createdAt: -1 });
 
   res.json(donations);
 });
 
 export const getAdminStats = asyncHandler(async (req, res) => {
+  const collegeId = req.user.college._id;
   const [fundsResult, donorCount, campaignCount, donationCount, userCount] =
     await Promise.all([
-      Donation.aggregate([{ $group: { _id: null, total: { $sum: '$amount' } } }]),
-      Donation.distinct('userId').then((ids) => ids.length),
-      Campaign.countDocuments(),
-      Donation.countDocuments(),
-      User.countDocuments()
+      Donation.aggregate([
+        { $match: { college: collegeId } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      Donation.distinct('userId', { college: collegeId }).then((ids) => ids.length),
+      Campaign.countDocuments({ college: collegeId }),
+      Donation.countDocuments({ college: collegeId }),
+      User.countDocuments({ college: collegeId })
     ]);
 
   res.json({
@@ -184,6 +203,7 @@ export const getAdminStats = asyncHandler(async (req, res) => {
     totalDonors: donorCount,
     totalCampaigns: campaignCount,
     totalDonations: donationCount,
-    totalUsers: userCount
+    totalUsers: userCount,
+    collegeName: req.user.college.name
   });
 });

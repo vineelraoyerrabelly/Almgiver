@@ -24,14 +24,14 @@ const CampaignListPage = () => {
     <div className="space-y-8">
       <div className="rounded-[32px] bg-white p-8 shadow-soft">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
-          Campaign Directory
+          My college campaigns
         </p>
-        <h1 className="mt-3 text-4xl font-black text-ink">Support active initiatives</h1>
+        <h1 className="mt-3 text-4xl font-black text-ink">Support your own campus initiatives</h1>
         <div className="mt-8 grid gap-4 md:grid-cols-[1fr_220px]">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by title or mission"
+            placeholder="Search your college campaigns"
             className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-brand-400"
           />
           <select
@@ -59,4 +59,3 @@ const CampaignListPage = () => {
 };
 
 export default CampaignListPage;
-

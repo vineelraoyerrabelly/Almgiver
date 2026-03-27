@@ -28,6 +28,11 @@ const campaignSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    college: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'College',
+      required: true
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -38,4 +43,3 @@ const campaignSchema = new mongoose.Schema(
 );
 
 export const Campaign = mongoose.model('Campaign', campaignSchema);
-

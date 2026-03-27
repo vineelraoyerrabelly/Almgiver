@@ -18,22 +18,25 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
   user.name = req.body.name || user.name;
   user.email = req.body.email || user.email;
-  if (req.body.password) {
-    user.password = req.body.password;
-  }
 
   const updated = await user.save();
+  const populatedUser = await User.findById(updated._id)
+    .select('-password')
+    .populate('college', 'name slug');
   res.json({
-    _id: updated._id,
-    name: updated.name,
-    email: updated.email,
-    role: updated.role,
-    token: generateToken(updated._id)
+    _id: populatedUser._id,
+    name: populatedUser.name,
+    email: populatedUser.email,
+    role: populatedUser.role,
+    college: populatedUser.college,
+    token: generateToken(populatedUser._id)
   });
 });
 
 export const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+  const users = await User.find({ college: req.user.college._id })
+    .select('-password')
+    .populate('college', 'name slug')
+    .sort({ createdAt: -1 });
   res.json(users);
 });
-

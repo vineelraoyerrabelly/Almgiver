@@ -26,7 +26,7 @@ const Navbar = () => {
           <div>
             <p className="text-lg font-bold text-ink">Almgiver</p>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
-              Alumni Fundraising
+              Project Almgiver
             </p>
           </div>
         </Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
           {user ? (
             <>
               <div className="hidden rounded-full bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700 sm:block">
-                {user.name}
+                {user.name} · {user.college?.name}
               </div>
               <button
                 type="button"
@@ -88,4 +88,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

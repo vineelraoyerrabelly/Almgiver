@@ -12,6 +12,11 @@ const donationSchema = new mongoose.Schema(
       ref: 'Campaign',
       required: true
     },
+    college: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'College',
+      required: true
+    },
     amount: {
       type: Number,
       required: true,
@@ -31,7 +36,9 @@ const donationSchema = new mongoose.Schema(
       default: 'captured'
     },
     donorName: String,
-    donorEmail: String
+    donorEmail: String,
+    donorRole: String,
+    donorCollegeName: String
   },
   {
     timestamps: true
@@ -39,4 +46,3 @@ const donationSchema = new mongoose.Schema(
 );
 
 export const Donation = mongoose.model('Donation', donationSchema);
-

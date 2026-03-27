@@ -46,6 +46,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (payload) => {
+    setLoading(true);
+    try {
+      const { data } = await api.post('/auth/forgot-password', payload);
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetPassword = async (payload) => {
+    setLoading(true);
+    try {
+      const { data } = await api.post('/auth/reset-password', payload);
+      if (data.user) {
+        setUser(data.user);
+      }
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => setUser(null);
 
   return (
@@ -57,6 +80,8 @@ export const AuthProvider = ({ children }) => {
         register: (payload) => authenticate('/auth/register', payload),
         refreshProfile,
         updateProfile,
+        forgotPassword,
+        resetPassword,
         logout
       }}
     >
@@ -66,4 +91,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

@@ -6,18 +6,20 @@ import CampaignListPage from './pages/CampaignListPage';
 import CampaignDetailsPage from './pages/CampaignDetailsPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => (
   <Routes>
     <Route element={<MainLayout />}>
       <Route path="/" element={<HomePage />} />
-      <Route path="/campaigns" element={<CampaignListPage />} />
-      <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
       <Route path="/login" element={<AuthPage mode="login" />} />
       <Route path="/register" element={<AuthPage mode="register" />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
       <Route element={<ProtectedRoute />}>
+        <Route path="/campaigns" element={<CampaignListPage />} />
+        <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
       </Route>
 
@@ -31,4 +33,3 @@ const App = () => (
 );
 
 export default App;
-

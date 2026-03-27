@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import api from '../api/axios';
 import Loader from '../components/Loader';
 import useFetch from '../hooks/useFetch';
+import { useAuth } from '../context/AuthContext';
 
 const initialForm = {
   title: '',
@@ -13,6 +14,7 @@ const initialForm = {
 };
 
 const AdminPage = () => {
+  const { user } = useAuth();
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState('');
   const { data: campaigns, setData: setCampaigns, loading: campaignsLoading } = useFetch('/campaigns', []);
@@ -70,6 +72,17 @@ const AdminPage = () => {
 
   return (
     <div className="space-y-8">
+      <section className="rounded-[28px] bg-white p-6 shadow-soft">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-600">
+          Admin scope
+        </p>
+        <p className="mt-3 text-2xl font-black text-ink">{user?.college?.name}</p>
+        <p className="mt-2 text-sm text-slate-600">
+          This dashboard is scoped to your college only. Campaigns, users, donors,
+          and totals from other colleges are hidden.
+        </p>
+      </section>
+
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {(statsLoading
           ? []
@@ -179,6 +192,9 @@ const AdminPage = () => {
                   <div>
                     <p className="font-semibold text-slate-800">{donation.userId?.name}</p>
                     <p className="text-sm text-slate-500">{donation.campaignId?.title}</p>
+                    <p className="text-xs text-slate-500">
+                      {donation.userId?.email} · {donation.donorRole} · {donation.donorCollegeName}
+                    </p>
                   </div>
                   <p className="font-semibold text-brand-700">
                     INR {donation.amount.toLocaleString()}
@@ -200,6 +216,7 @@ const AdminPage = () => {
                   <div>
                     <p className="font-semibold text-slate-800">{member.name}</p>
                     <p className="text-sm text-slate-500">{member.email}</p>
+                    <p className="text-xs text-slate-500">{member.college?.name}</p>
                   </div>
                   <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase text-brand-700">
                     {member.role}
@@ -215,4 +232,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
