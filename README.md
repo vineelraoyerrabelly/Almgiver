@@ -2,6 +2,8 @@
 
 Almgiver is a full-stack alumni fundraising web application built with React, Vite, Tailwind CSS, Express, MongoDB, JWT authentication, and Razorpay test payments.
 
+Full technical documentation: [docs/PROJECT_DOCUMENTATION.md](/Users/vineelyerrabelly/Documents/New%20project/docs/PROJECT_DOCUMENTATION.md)
+
 ## Features
 
 - College-scoped student, alumni, and admin authentication with JWT and hashed passwords
@@ -155,4 +157,3 @@ git push -u origin main
 ## Screenshots
 
 Add deployed screenshots after running locally or after deployment so the README reflects your final environment.
-# Almgiver
